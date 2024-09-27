@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PropertyConfig {
 
-    @Value("${mongodb.url}")
-    private String mongoDbUrl;
+  @Value("${mongodb.url}")
+  private String mongoDbUrl;
 
-    @Value("${mongodb.name}")
-    private String mongoDbName;
+  @Value("${mongodb.name}")
+  private String mongoDbName;
 }

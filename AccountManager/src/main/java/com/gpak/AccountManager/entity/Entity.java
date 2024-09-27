@@ -3,19 +3,29 @@ package com.gpak.AccountManager.entity;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Document(collection = "Entity")
 @Data
 public class Entity {
 
-    private String id;
+  private String id;
 
-    private String acName;
+  private String name;
 
-    private int amount;
+  private String department;
 
-    private String department;
+  private String thekedaarKaNaam;
 
-    private String acIdentification;
+  private int amount;
 
-    private Long time;
+  private String acIdentification;
+
+  private String isPaid;
+
+  private LocalDate date;
+
+  private String isActive;
+
+  private Long time;
 }
