@@ -1,6 +1,6 @@
 package com.gpak.AccountManager.helper;
 
-import com.gpak.AccountManager.entity.Entity;
+import com.gpak.AccountManager.entity.Account;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Convertor {
 
-  public Entity convertMapToEntity(Map<String, Object> objectMap) {
-    Entity entity = new Entity();
+  public Account convertMapToEntity(Map<String, Object> objectMap) {
+    Account entity = new Account();
 
     for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
       String fieldName = entry.getKey();
       Object fieldValue = entry.getValue();
 
       try {
-        Field field = Entity.class.getDeclaredField(fieldName);
+        Field field = Account.class.getDeclaredField(fieldName);
         field.setAccessible(true);
 
         Object convertedValue = convertValue(field.getType(), fieldValue);
@@ -35,7 +35,7 @@ public class Convertor {
     return entity;
   }
 
-  private Object convertValue(Class<?> fieldType, Object fieldValue) {
+  public Object convertValue(Class<?> fieldType, Object fieldValue) {
     if (fieldValue == null) {
       return null;
     }
@@ -67,7 +67,7 @@ public class Convertor {
       try {
         return LocalDate.parse(fieldValue.toString(), formatter);
       } catch (DateTimeParseException e) {
-        e.printStackTrace(); // Handle the exception as per your requirements
+        e.printStackTrace();
       }
     }
 

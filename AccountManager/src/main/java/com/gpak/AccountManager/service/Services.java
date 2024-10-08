@@ -1,19 +1,23 @@
 package com.gpak.AccountManager.service;
 
-import com.gpak.AccountManager.entity.Entity;
+import com.gpak.AccountManager.entity.Account;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public interface Services {
 
-  public Map<String, Object> addNewEntry(Map<String, Object> entity) throws Exception;
+  Map<String, Object> addNewEntry(Map<String, Object> entity) throws Exception;
 
-  public List<Map<String, Object>> getAllAcNameWithDepartment(String keyword);
+  List<Map<String, Object>> getAllAcNameWithDepartment(String keyword);
 
-  public List<Entity> getAllEntities();
+  List<Account> getAllEntities();
 
-  public List<Entity> getEntitiesForDateRange(String stDate, String endDate);
+  List<Account> getEntitiesForDateRange(LocalDate startDate, LocalDate endDate);
 
-  public int getTotalAmountForDateRange(String acName);
-  //    public Entity getAllEntitie();
+  List<Account> getEntitiesForDateRangeAndContractor(
+      LocalDate startDate, LocalDate endDate, String thekedaarKaNaam);
+
+  int getTotalAmountForDateRange(String acName);
+  
 }
