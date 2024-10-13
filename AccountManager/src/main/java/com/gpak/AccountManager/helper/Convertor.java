@@ -22,7 +22,7 @@ public class Convertor {
         Field field = Account.class.getDeclaredField(fieldName);
         field.setAccessible(true);
 
-        Object convertedValue = convertValue(field.getType(), fieldValue);
+        Object convertedValue = convertValue(field.getType(), fieldValue != null ? fieldValue.toString().trim() : fieldValue);
 
         field.set(entity, convertedValue);
       } catch (NoSuchFieldException | IllegalAccessException e) {

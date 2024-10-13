@@ -93,7 +93,7 @@ public class CsvService implements CsvServices {
   public void getCsv(LocalDate startDate, LocalDate endDate) {
     List<Account> accountList = services.getEntitiesForDateRange(startDate, endDate);
     try {
-      writeJsonToCsv(accountList, "C:/Users/kitan/Desktop/output.csv");
+      writeJsonToCsv(accountList, "C:/Users/kitan/Desktop/output" + String.valueOf(System.currentTimeMillis()) + ".csv");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -104,7 +104,7 @@ public class CsvService implements CsvServices {
     List<Account> accountList =
         services.getEntitiesForDateRangeAndContractor(startDate, endDate, thekedaarKaNaam);
     try {
-      writeJsonToCsv(accountList, "output_contractor.csv");
+      writeJsonToCsv(accountList, "C:/Users/kitan/Desktop/totalAmount" + String.valueOf(System.currentTimeMillis()) + ".csv");
     } catch (IOException e) {
       e.printStackTrace();
     }

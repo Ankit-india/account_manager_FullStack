@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.gpak.AccountManager.util.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class ServicesImpl implements Services {
   @Autowired private Convertor convertor;
 
   @Autowired private EntityMapValidator entityMapValidator;
+
+  @Autowired private Utility utility;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Services.class);
 
@@ -132,7 +135,7 @@ public class ServicesImpl implements Services {
     LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
 
     List<Account> accounts = repository.findByEntryListDateBetween(startDateTime, endDateTime);
-
+    accounts = utility.getAllAccountsWithDate(startDate, endDate, accounts);
     return accounts;
   }
 
