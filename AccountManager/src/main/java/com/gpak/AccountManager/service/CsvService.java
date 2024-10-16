@@ -77,7 +77,42 @@ public class CsvService implements CsvServices {
       // ? " " + account.getAccountIdentifier() + " " : "") + "(" + account.getThekedaarKaNaam() +
       // ")";
 
-      String[] row = new String[] {concatenatedName, String.valueOf(totalAmount)};
+            String[] row = new String[] {concatenatedName, String.valueOf(totalAmount)};
+            dataList.add(row);
+    }
+    CSVWriter writer = null;
+    try {
+      writer = new CSVWriter(new FileWriter(csvFilePath));
+      writer.writeAll(dataList);
+    } finally {
+      writer.close();
+    }
+  }
+
+  public void writeJsonToCsvTotalAmtMaster(List<Account> accountList, String csvFilePath)
+      throws IOException {
+    List<String[]> dataList = new ArrayList<>();
+
+    String[] header = {"name", "department", "amount"};
+    dataList.add(header);
+
+    for (Account account : accountList) {
+      int totalAmount = account.getEntryList().stream().mapToInt(Entry::getAmount).sum();
+
+      String concatenatedName =
+          account.getName()
+              + (account.getThekedaarKaNaam() != null
+                  ? " (" + account.getThekedaarKaNaam() + ")"
+                  : "")
+              + (account.getAccountIdentifier() != null
+                  ? " " + account.getAccountIdentifier()
+                  : "");
+      //      String concatenatedName = account.getName() + (account.getAccountIdentifier() != null
+      // ? " " + account.getAccountIdentifier() + " " : "") + "(" + account.getThekedaarKaNaam() +
+      // ")";
+
+      String[] row =
+          new String[] {concatenatedName, account.getDepartment(), String.valueOf(totalAmount)};
       dataList.add(row);
     }
     CSVWriter writer = null;
@@ -93,7 +128,9 @@ public class CsvService implements CsvServices {
   public void getCsv(LocalDate startDate, LocalDate endDate) {
     List<Account> accountList = services.getEntitiesForDateRange(startDate, endDate);
     try {
-      writeJsonToCsv(accountList, "C:/Users/kitan/Desktop/output" + String.valueOf(System.currentTimeMillis()) + ".csv");
+      writeJsonToCsv(
+          accountList,
+          "C:/Users/kitan/Desktop/output" + String.valueOf(System.currentTimeMillis()) + ".csv");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -104,7 +141,48 @@ public class CsvService implements CsvServices {
     List<Account> accountList =
         services.getEntitiesForDateRangeAndContractor(startDate, endDate, thekedaarKaNaam);
     try {
-      writeJsonToCsv(accountList, "C:/Users/kitan/Desktop/totalAmount" + String.valueOf(System.currentTimeMillis()) + ".csv");
+      writeJsonToCsv(
+          accountList,
+          "C:/Users/kitan/Desktop/totalAmount"
+              + String.valueOf(System.currentTimeMillis())
+              + ".csv");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void getCsvDeptWiseNameList(LocalDate stDate, LocalDate endDate, String departmentName) {
+    List<Account> accountList = services.getEntitiesForDateRange(stDate, endDate);
+    List<Account> accountListDept = new ArrayList<>();
+    if (departmentName != null) {
+      for (Account account : accountList) {
+        if (account.getDepartment().equalsIgnoreCase(departmentName)) {
+          accountListDept.add(account);
+        }
+      }
+    }
+    //    JsonObject map = new JsonObject();
+    //    for(Account account: accountList) {
+    //      int totalAmmount = 0;
+    //      List<Entry> entryList = account.getEntryList();
+    //      for(Entry entry: entryList) {
+    //        totalAmmount += entry.getAmount();
+    //      }
+    //      map.(account.getName(), totalAmmount);
+    //    }
+    try {
+      if (!accountListDept.isEmpty()) {
+        writeJsonToCsvTotalAmt(
+            accountListDept,
+            "C:/Users/kitan/Desktop/totalAmount"
+                + String.valueOf(System.currentTimeMillis())
+                + ".csv");
+      } else {
+        if (departmentName == null) {
+          writeJsonToCsvTotalAmtMaster(accountList, "C:/Users/kitan/Desktop/master" + ".csv");
+        }
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -36,10 +36,17 @@ public class MainController {
   public ResponseEntity<?> getCsv(
       @RequestParam(name = "startDate", required = true) LocalDate startDate,
       @RequestParam(name = "endDate", required = true) LocalDate endDate,
-      @RequestParam(name = "contractorName", required = false) String contractorName) {
+      @RequestParam(name = "contractorName", required = false) String contractorName,
+      @RequestParam(name = "departmentName", required = false) String departmentName,
+      @RequestParam(name = "isMaster", required = false) boolean isMaster) {
     if (contractorName != null && !contractorName.isEmpty()) {
       csvServices.getCsv(startDate, endDate, contractorName);
-    } else {
+    } else if(departmentName != null && !departmentName.isEmpty()){
+      csvServices.getCsvDeptWiseNameList(startDate, endDate, departmentName);
+    } else if (isMaster) {
+      csvServices.getCsvDeptWiseNameList(startDate, endDate, null);
+    }
+    else {
       csvServices.getCsv(startDate, endDate);
     }
     return new ResponseEntity<>("file will download in few minutes.", HttpStatus.OK);
