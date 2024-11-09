@@ -38,13 +38,18 @@ public class MainController {
       @RequestParam(name = "endDate", required = true) LocalDate endDate,
       @RequestParam(name = "contractorName", required = false) String contractorName,
       @RequestParam(name = "departmentName", required = false) String departmentName,
-      @RequestParam(name = "isMaster", required = false) boolean isMaster) {
+      @RequestParam(name = "name", required = false) String accountName,
+      @RequestParam(name = "accountIdentifier", required = false) String acIdentifier,
+      @RequestParam(name = "isMaster", required = false) boolean isMaster,
+      @RequestParam(name = "getSingleAccount", required = false) boolean getSingleAccount) {
     if (contractorName != null && !contractorName.isEmpty()) {
       csvServices.getCsv(startDate, endDate, contractorName);
-    } else if(departmentName != null && !departmentName.isEmpty()){
+    } else if(departmentName != null && !departmentName.isEmpty() && !getSingleAccount){
       csvServices.getCsvDeptWiseNameList(startDate, endDate, departmentName);
     } else if (isMaster) {
       csvServices.getCsvDeptWiseNameList(startDate, endDate, null);
+    } else if(getSingleAccount){ // LocalDate startDate, LocalDate endDate, String acName, String thekedaarKaNaam, String dept, String acIdentifier
+      csvServices.getCsvSingleAccount(startDate, endDate, accountName, contractorName,  departmentName, acIdentifier);
     }
     else {
       csvServices.getCsv(startDate, endDate);

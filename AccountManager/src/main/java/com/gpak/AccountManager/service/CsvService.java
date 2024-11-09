@@ -152,6 +152,23 @@ public class CsvService implements CsvServices {
   }
 
   @Override
+  public void getCsvSingleAccount(LocalDate startDate, LocalDate endDate, String accountName, String thekedaarKaNaam, String department, String acIdentifier) {
+    Account account =
+            services.getEntityForDateRangeOfAccount(startDate, endDate, accountName, thekedaarKaNaam, department, acIdentifier);
+    List<Account> accountList = new ArrayList<>();
+    accountList.add(account);
+    try {
+      writeJsonToCsv(
+              accountList,
+              "C:/Users/kitan/Desktop/totalAmount"
+                      + String.valueOf(System.currentTimeMillis())
+                      + ".csv");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
   public void getCsvDeptWiseNameList(LocalDate stDate, LocalDate endDate, String departmentName) {
     List<Account> accountList = services.getEntitiesForDateRange(stDate, endDate);
     List<Account> accountListDept = new ArrayList<>();

@@ -169,4 +169,20 @@ public class ServicesImpl implements Services {
   public int getTotalAmountForDateRange(String acName) {
     return 0;
   }
+
+
+  @Override
+  public Account getEntityForDateRangeOfAccount(LocalDate startDate, LocalDate endDate, String accountName, String thekedaarKaNaam, String department, String acIdentifier) {
+    // LocalDate startDate, LocalDate endDate, String acName, String thekedaarKaNaam, String dept, String acIdentifier
+    Account account = repository.getAllAccountsWithDepartment(startDate,endDate,accountName,thekedaarKaNaam,department,acIdentifier);
+    List<Entry> filteredEntries = account.getEntryList().stream()
+            .filter(entry -> !entry.getDate().isBefore(startDate) && !entry.getDate().isAfter(endDate))
+            .collect(Collectors.toList());
+
+    // Set the filtered entries back to the account object
+    account.setEntryList(filteredEntries);
+
+    // Return the filtered account object
+    return account;
+  }
 }

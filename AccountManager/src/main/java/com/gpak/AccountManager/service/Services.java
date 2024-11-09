@@ -18,6 +18,8 @@ public interface Services {
   List<Account> getEntitiesForDateRangeAndContractor(
       LocalDate startDate, LocalDate endDate, String thekedaarKaNaam);
 
+  Account getEntityForDateRangeOfAccount(LocalDate startDate, LocalDate endDate, String accountName, String thekedaarKaNaam, String department, String acIdentifier);
+
   int getTotalAmountForDateRange(String acName);
   
 }

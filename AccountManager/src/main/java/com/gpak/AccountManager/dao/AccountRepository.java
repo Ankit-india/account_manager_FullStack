@@ -116,4 +116,21 @@ public class AccountRepository {
             return null;
         }
     }
+
+    public Account getAllAccountsWithDepartment(LocalDate startDate, LocalDate endDate, String acName, String thekedaarKaNaam, String dept, String acIdentifier) {
+        try{
+            Query query = new Query();
+            query.addCriteria(Criteria.where("entryList.date").gte(startDate).lte(endDate));
+            query.addCriteria(Criteria.where("thekedaarKaNaam").is(thekedaarKaNaam != null ? thekedaarKaNaam : ""));
+            query.addCriteria(Criteria.where("department").is(dept));
+            query.addCriteria(Criteria.where("name").is(acName));
+            query.addCriteria(Criteria.where("accountIdentifier").is(acIdentifier != null ? acIdentifier : ""));
+
+            List<Account> accountList = mongoTemplate.find(query, Account.class);
+            return accountList.get(0);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while fetching accounts by entry date range and contractor name: {}", e.getMessage());
+            return null;
+        }
+    }
 }
