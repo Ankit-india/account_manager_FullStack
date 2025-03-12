@@ -159,8 +159,13 @@ public class ServicesImpl implements Services {
               .collect(Collectors.toList());
 
       account.getEntryList().removeIf(entry -> entry.getDate().isBefore(startDate) || entry.getDate().isAfter(endDate));
-
-      filteredEntries.addAll(entriesInRange);
+      int sum = 0;
+      for(Entry entry : entriesInRange) {
+        sum += entry.getAmount();
+      }
+      Entry entry = new Entry();
+      entry.setAmount(sum);
+      filteredEntries.add(entry);
     }
   }
 

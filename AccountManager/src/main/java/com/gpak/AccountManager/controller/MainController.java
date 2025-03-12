@@ -42,7 +42,7 @@ public class MainController {
       @RequestParam(name = "accountIdentifier", required = false) String acIdentifier,
       @RequestParam(name = "isMaster", required = false) boolean isMaster,
       @RequestParam(name = "getSingleAccount", required = false) boolean getSingleAccount) {
-    if (contractorName != null && !contractorName.isEmpty()) {
+    if (contractorName != null && !contractorName.isEmpty() && departmentName == null) {
       csvServices.getCsv(startDate, endDate, contractorName);
     } else if(departmentName != null && !departmentName.isEmpty() && !getSingleAccount){
       csvServices.getCsvDeptWiseNameList(startDate, endDate, departmentName);
