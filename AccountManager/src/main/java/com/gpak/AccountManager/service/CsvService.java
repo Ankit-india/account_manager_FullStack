@@ -120,7 +120,9 @@ public class CsvService implements CsvServices {
       writer = new CSVWriter(new FileWriter(csvFilePath));
       writer.writeAll(dataList);
     } finally {
-      writer.close();
+      if (writer != null) {
+        writer.close();
+      }
     }
   }
 
